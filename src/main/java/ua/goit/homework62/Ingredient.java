@@ -3,6 +3,15 @@ package ua.goit.homework62;
 public class Ingredient {
     private int ing_id;
     private String ing_name;
+    private Double rest;
+
+    public void setRest(Double r) {
+        rest = r;
+    }
+
+    public Double getRest() {
+        return rest;
+    }
 
     public int getIng_id() {
         return ing_id;
@@ -25,6 +34,7 @@ public class Ingredient {
         return "Ingredient{" +
                 "ing_id=" + ing_id +
                 ", ing_name='" + ing_name + '\'' +
+                ", rest=" + rest +
                 '}';
     }
 }

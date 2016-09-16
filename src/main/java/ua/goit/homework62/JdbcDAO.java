@@ -286,7 +286,9 @@ public class JdbcDAO {
         Ingredient result = new Ingredient();
         if (connection != null) {
             try {
-                String sqlStr = "select \"ING_ID\",\"ING_NAME\" from \"Ingredients\" where \"ING_ID\" = ? ";
+                //String sqlStr = "select \"ING_ID\",\"ING_NAME\" from \"Ingredients\" where \"ING_ID\" = ? ";
+
+                String sqlStr = "SELECT \"Ingredients\".\"ING_ID\", \"Ingredients\".\"ING_NAME\", \"Warehouse\".\"QTY\" FROM public.\"Ingredients\" LEFT JOIN public.\"Warehouse\" on \"Ingredients\".\"ING_ID\" = \"Warehouse\".\"ING_ID\" where \"Ingredients\".\"ING_ID\" = ? ";
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
                 preparedStatement.setInt(1,ingID);
                 ResultSet rs = preparedStatement.executeQuery();
@@ -350,9 +352,89 @@ public class JdbcDAO {
         try {
             ingredient.setIng_id(resultSet.getInt("ING_ID"));
             ingredient.setIng_name(resultSet.getString("ING_NAME"));
+            ingredient.setRest(resultSet.getDouble("QTY"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 //end Ingredients
+
+//Warehouse
+    public ArrayList<Ingredient> getAllWarehouseRest() {
+        openConnection();
+        ArrayList<Ingredient> result = new ArrayList<>();
+        if (connection != null) {
+            try {
+                Statement statement = connection.createStatement();
+                String sqlStr = "SELECT \"Ingredients\".\"ING_ID\", \"Ingredients\".\"ING_NAME\", \"Warehouse\".\"QTY\" FROM \"Ingredients\" INNER JOIN \"Warehouse\" on \"Ingredients\".\"ING_ID\" = \"Warehouse\".\"ING_ID\" ORDER BY \"Ingredients\".\"ING_NAME\"  ";
+                ResultSet rs = statement.executeQuery(sqlStr);
+                while (rs.next()) {
+                    Ingredient ing = new Ingredient();
+                    fillIngredientDataFromResultSet(ing,rs);
+                    result.add(ing);
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+                closeConnection();
+            }
+        }
+        return result;
+    }
+
+
+    public int isWhElementExists(int elId) {
+        openConnection();
+        int res = 0;
+        if (connection != null) {
+            try {
+                String sqlStr = "SELECT \"ING_ID\" FROM \"Warehouse\" where \"ING_ID\" = ?";
+
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
+                preparedStatement.setInt(1, elId);
+                ResultSet rs = preparedStatement.executeQuery();
+
+                while (rs.next()) {
+                    res = rs.getInt("ING_ID");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                closeConnection();
+            }
+        }
+        return res;
+    }
+
+
+    public void updateWarehouse(int ingId,Double qty) {
+        int isExists = isWhElementExists(ingId);
+
+        openConnection();
+        if (connection != null) {
+            try {
+                String sqlStr;
+
+                //if exists then update, else insert
+                if (isExists > 0) {
+                    sqlStr = "update \"Warehouse\" set \"QTY\" = ? where \"ING_ID\"= ? ";
+                } else {
+                    sqlStr = "insert into \"Warehouse\"(\"QTY\",\"ING_ID\") VALUES(?,?)";
+                }
+
+                    PreparedStatement pStatement = connection.prepareStatement(sqlStr);
+                    pStatement.setDouble(1,qty);
+                    pStatement.setInt(2,ingId);
+                    pStatement.executeUpdate();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                closeConnection();
+            }
+        }
+    }
+//end Warehouse
+
 }

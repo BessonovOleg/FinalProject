@@ -1,5 +1,6 @@
 import org.junit.Test;
 import ua.goit.homework62.DishCategory;
+import ua.goit.homework62.Ingredient;
 import ua.goit.homework62.JdbcDAO;
 import ua.goit.homework62.Worker;
 
@@ -25,5 +26,30 @@ public class TestDAO {
             System.out.println(d.toString());
         }
 */
+    }
+
+
+
+    @Test
+    public void testIngredient() {
+        JdbcDAO dao = new JdbcDAO();
+        ArrayList<Ingredient> ingredients;
+        ingredients = dao.getAllWarehouseRest();
+        for (Ingredient ing:ingredients) {
+            System.out.println(ing.toString());
+        }
+    }
+
+    @Test
+    public void testIsWarehouseElementExists(){
+        JdbcDAO dao = new JdbcDAO();
+        System.out.println(dao.isWhElementExists(5));
+        //System.out.println(res);
+    }
+
+    @Test
+    public void testWareHouseUpdate() {
+        JdbcDAO dao = new JdbcDAO();
+        dao.updateWarehouse(5,52.0);
     }
 }

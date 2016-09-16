@@ -60,6 +60,30 @@ public class WorkerController {
         return model;
     }
 
+    @RequestMapping(value = "addWorker",method = RequestMethod.POST)
+    public ModelAndView addWorker(@RequestParam("firstName") String firstName ,
+                                  @RequestParam("lastName") String lastName,
+                                  @RequestParam("dob") String dob,
+                                  @RequestParam("phone") String phone,
+                                  @RequestParam("position") String position,
+                                  @RequestParam("salary") Double salary) {
+
+        JdbcDAO dao = new JdbcDAO();
+        Worker worker = new Worker();
+        worker.setFirst_name(firstName);
+        worker.setLast_name(lastName);
+        worker.setDob(Date.valueOf(dob));
+        worker.setPhone(phone);
+        worker.setPosition(position);
+        worker.setSalary(salary);
+        dao.updateWorker(worker);
+
+        ModelAndView model = new ModelAndView();
+        model.setViewName("workers");
+        return model;
+    }
+
+    @RequestMapping(value = "deleteWorker",method = RequestMethod.POST)
     public ModelAndView deleteWorker(@RequestParam("delId") int delId) {
         JdbcDAO dao = new JdbcDAO();
         dao.deleteWorker(delId);

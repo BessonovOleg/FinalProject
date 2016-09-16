@@ -26,7 +26,7 @@
             JdbcDAO dao = new JdbcDAO();
             ArrayList<Ingredient> ing;
             request.setCharacterEncoding("UTF-8");
-               ing = dao.getAllIngredient();
+            ing = dao.getAllIngredient();
             for (Ingredient ingredient : ing) {
         %>
         <tr>
@@ -65,6 +65,6 @@
 
 
 
-<center>
+</center>
 </body>
 </html>
