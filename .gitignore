@@ -32,6 +32,11 @@
 
 *.class
 
+##Target folder
+/target/
+target/*
+
+
 # IntelliJ
 /out/
 
