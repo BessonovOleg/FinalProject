@@ -27,4 +27,12 @@ public class MainController {
     }
 
 
+    @RequestMapping(value = "mapRestaurant",method = RequestMethod.GET)
+    public ModelAndView mapRestaurant() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("mapRestaurant");
+        return model;
+    }
+
+
 }

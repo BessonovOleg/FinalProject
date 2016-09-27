@@ -6,6 +6,8 @@ import ua.goit.homework62.Worker;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
 
 public class TestDAO {
     @Test
@@ -15,36 +17,26 @@ public class TestDAO {
         workers = dao.getAllWorkers();
     }
 
-
     @Test
     public void tesDishCategory(){
         JdbcDAO dao = new JdbcDAO();
         ArrayList<DishCategory> dc ;
         dc = dao.getAllDishCategory();
-/*
-        for(DishCategory d:dc){
-            System.out.println(d.toString());
-        }
-*/
     }
-
-
 
     @Test
     public void testIngredient() {
         JdbcDAO dao = new JdbcDAO();
         ArrayList<Ingredient> ingredients;
         ingredients = dao.getAllWarehouseRest();
-        for (Ingredient ing:ingredients) {
-            System.out.println(ing.toString());
-        }
     }
 
     @Test
     public void testIsWarehouseElementExists(){
         JdbcDAO dao = new JdbcDAO();
-        System.out.println(dao.isWhElementExists(5));
-        //System.out.println(res);
+        int actual = 5;
+        int expected = dao.isWhElementExists(5);
+        assertEquals(expected, actual);
     }
 
     @Test

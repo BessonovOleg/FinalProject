@@ -7,15 +7,13 @@
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <http auto-config="true">
-        <intercept-url pattern="/admin**" access="ROLE_ADMIN" />
-        <intercept-url pattern="/test" access="ROLE_USER"/>
+        <intercept-url pattern="/work**" access="ROLE_ADMIN"/>
     </http>
 
     <authentication-manager>
         <authentication-provider>
             <user-service>
                 <user name="admin" password="123" authorities="ROLE_ADMIN"/>
-                <user name="user" password="555" authorities="ROLE_USER" />
             </user-service>
         </authentication-provider>
     </authentication-manager>

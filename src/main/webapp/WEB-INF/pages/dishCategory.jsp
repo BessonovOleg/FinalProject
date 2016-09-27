@@ -62,7 +62,9 @@
 </div>
 
 
-
+    <div align="center">
+        <a href="/restaurant">На главную</a>
+    </div>
 
 
 <center>
